@@ -1,18 +1,13 @@
-/*
+const express = require('express')
+const registerDTO = require('./dto/register.dto')
+const loginDTO = require('./dto/login.dto')
+const logoutDTO = require('./dto/logout.dto')
+const { registerController, loginController, logoutController } = require('./auth.controllers')
 
-    create a router
+const router = express.Router()
 
-    attach these endpoints
-        POST /register
-            - dto
-            - controller
+router.post('/register', registerDTO, registerController)
+router.post('/login', loginDTO, loginController)
+router.post('/logout', logoutDTO, logoutController)
 
-        POST /login
-            - dto
-            - controller
-
-        POST /logout
-            - dto
-            - controller
-
-*/
+module.exports = router

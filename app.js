@@ -1,36 +1,31 @@
-/*
-import:
-    express
-    cors
-    cookie-parser
-    morgan
-    dbConfig
+require('dotenv').config()
+const express = require('express')
+const cors = require('cors')
+const cookieParser = require('cookie-parser')
+const morgan = require('morgan')
 
-create express app
+const authRouter = require('./api/auth/auth.router')
+const productsRouter = require('./api/products/products.router')
 
+const app = express()
 
-add middlewares:
-    body parser - express.json
-    cookie parser
-    morgan
+app.use(cors({
+  origin: process.env.ALLOWED_ORIGIN || 'http://localhost:3000',
+  credentials: true,
+}))
+app.use(express.json())
+app.use(cookieParser())
+app.use(morgan('dev'))
 
-GET /health api
-    {success: true, message: 'Server is running'}
+app.get('/health', (req, res) => {
+  res.status(200).json({ success: true, message: 'Server is running' })
+})
 
-attach auth router - /api/v1/auth
+app.use('/api/v1/auth', authRouter)
+app.use('/api/v1/products', productsRouter)
 
-attach products router - /api/v1/products
+const PORT = process.env.PORT || 6101
 
-start the server at port 6101
-
-
-
-
-
-
-
-
-
-
-
-*/
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`)
+})
