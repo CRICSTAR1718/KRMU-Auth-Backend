@@ -14,7 +14,7 @@ const products = pgTable('products', {
   userIdFk: foreignKey({
     columns: [table.user_id],
     foreignColumns: [users.id],
-  }).onDelete('cascade'),
+  }).onDelete('cascade').onUpdate('cascade'),
 }))
 
 module.exports = { products }
